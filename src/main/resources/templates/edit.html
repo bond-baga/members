@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns="ctp://www.w3.org/1999/xhtml" 
+      xmlns:th="https://www.thymeleaf.org"
+      class="edit">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/example.css">
+  <script src="./js/jquery-3.7.1.js"> </script>
+  <script src="./js/main.js"></script>
+  <title>edit</title>
+</head>
+
+<header class="header">
+	<div class="box">
+  		<p></p>
+  		<p><span class="title"><label id="title"></label></span></p>  		
+  		<p><span class="user">
+			  <label id="user"></label>
+   			  <!--
+   			  <button type="button" onclick="logoutclick()">ログアウト</button>
+			  -->	
+  		   </span>
+  		</p>  		
+	</div>	
+</header>
+	
+<form class="center" id="form" method="post" th:object="${UserForm}">
+	
+	<th:block th:if="${title=='新規'}">
+	<input type="hidden" th:field=*{code}>
+	<table>
+		<tr>
+            <td>コード</td>
+            <td><input type="text" th:field=*{code}></td>			
+		</tr>
+		<tr>
+            <td>氏名</td>
+            <td><input type="text" th:field=*{name}></td>						
+		</tr>
+		<tr>
+            <td>カナ</td>
+            <td><input type="text" th:field=*{kana}></td>						
+		</tr>
+		<tr>
+            <td>状態</td>
+            <td><input type="text" th:field=*{statename}></td>									
+		</tr>
+		<tr>
+            <td>所属</td>
+            <td><input type="text" th:field=*{divisionname}></td>									
+		</tr>
+		<tr>
+            <td>部署</td>
+            <td><input type="text" th:field=*{sectionname}></td>						
+		</tr>
+        <tr>
+            <td></td>
+            <td>
+				<button type="button" onclick="history.back()">戻る</button>
+    			<button type="button" onclick="insertclick()">登録</button>
+   				<button type="reset">Restet</button>
+            </td>
+        </tr>		
+	</table>
+	</th:block>
+
+	<th:block th:if="${title=='更新'}">
+	<input type="hidden" th:field=*{code}>
+	<table>
+		<tr>
+            <td>コード</td>
+            <td><input type="text" th:field=*{code} disabled></td>			
+		</tr>
+		<tr>
+            <td>氏名</td>
+            <td><input type="text" th:field=*{name}></td>						
+		</tr>
+		<tr>
+            <td>カナ</td>
+            <td><input type="text" th:field=*{kana}></td>						
+		</tr>
+		<tr>
+            <td>状態</td>
+            <td><input type="text" th:field=*{statename}></td>									
+		</tr>
+		<tr>
+            <td>所属</td>
+            <td><input type="text" th:field=*{divisionname}></td>									
+		</tr>
+		<tr>
+            <td>部署</td>
+            <td><input type="text" th:field=*{sectionname}></td>						
+		</tr>
+        <tr>
+            <td></td>
+            <td>
+				<button type="button" onclick="history.back()">戻る</button>
+    			<button type="button" onclick="updateclick()">登録</button>
+   				<button type="reset">Restet</button>
+            </td>
+        </tr>		
+	</table>
+	
+	
+	
+	<!--
+	<p>コード：<input type="text" th:field=*{code} disabled></p>
+	<p>氏名：<input type="text" th:field=*{name}></p>
+	<p>カナ：<input type="text" th:field=*{kana}></p>
+	<p>状態：<input type="text" th:field=*{statename}></p>
+	<p>所属：<input type="text" th:field=*{divisionname}></p>
+	<p>部署：<input type="text" th:field=*{sectionname}></p>
+	<button type="button" onclick="history.back()">戻る</button>
+	<button type="button" onclick="updateclick()">登録</button> 
+   	<button type="reset">Restet</button>
+	-->
+	</th:block>
+	
+	<th:block th:if="${title=='削除'}">
+	<input type="hidden" th:field=*{code}>
+		<table>
+		<tr>
+            <td>コード</td>
+            <td><input type="text" th:field=*{code} disabled></td>			
+		</tr>
+		<tr>
+            <td>氏名</td>
+            <td><input type="text" th:field=*{name} disabled></td>						
+		</tr>
+		<tr>
+            <td>カナ</td>
+            <td><input type="text" th:field=*{kana} disabled></td>						
+		</tr>
+		<tr>
+            <td>状態</td>
+            <td><input type="text" th:field=*{statename} disabled></td>									
+		</tr>
+		<tr>
+            <td>所属</td>
+            <td><input type="text" th:field=*{divisionname} disabled></td>									
+		</tr>
+		<tr>
+            <td>部署</td>
+            <td><input type="text" th:field=*{sectionname} disabled></td>						
+		</tr>
+        <tr>
+            <td></td>
+            <td>
+				<button type="button" onclick="history.back()">戻る</button>
+				<button type="button" onclick="deleteclick()">削除</button>
+            
+            </td>
+        </tr>		
+	</table>
+	
+	
+	
+	
+	<!--
+	<p>コード：<input type="text" th:field=*{code} disabled></p>
+	<p>氏名：<input type="text" th:field=*{name} disabled></p>
+	<p>カナ：<input type="text" th:field=*{kana} disabled></p>
+	<p>状態：<input type="text" th:field=*{statename} disabled></p>
+	<p>所属：<input type="text" th:field=*{divisionname} disabled></p>
+	<p>部署：<input type="text" th:field=*{sectionname} disabled></p>
+	<button type="button" onclick="history.back()">戻る</button>
+	<button type="button" onclick="deleteclick()">削除</button>
+	-->
+	</th:block>	
+   	
+</form>
+
+<footer class="footer">
+    <p>© All rights reserved by PALM</p>
+</footer>
+
+<script th:inline="javascript">
+
+/*	
+var btndelete = document.getElementById("delete");
+
+
+btndelete.addEventListener("click", () => {
+	let result = confirm("削除しますか？");
+	if(result){
+  		//console.log('削除しました');
+	}else{
+  		//console.log('削除をとりやめました');
+	}	
+});
+*/
+  
+window.onload =  function() {
+	let title = /*[[${title}]]*/"title";
+	let user = /*[[${session.user['fullname']}]]*/"user";
+	
+    let element_title = document.getElementById("title");	
+	element_title.textContent = title;
+    let element_user = document.getElementById("user");	
+	element_user.textContent = "ログイン：" + user;
+}
+  
+function insertclick() {
+    let form = document.getElementById('form');
+  	form.action = "/insert";
+    form.submit();	
+}
+
+function updateclick() {
+	let result = confirm('１編集内容を登録しますか？');
+	if(!result) return;
+		
+    let form = document.getElementById('form');
+  	form.action = "/update";
+    form.submit();	
+}
+
+function deleteclick() {
+	let result = confirm('削除しますか？');
+	if(!result) return;
+		
+    let form = document.getElementById('form');
+  	form.action = "/delete";
+    form.submit();	
+}
+
+</script>
+
+</body>
+</html>

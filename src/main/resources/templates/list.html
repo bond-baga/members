@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      
+<head>
+  <meta charset="UTF-8">
+　<link rel="stylesheet" href="./css/example.css">
+  <script src="./js/jquery-3.7.1.js"> </script>
+  <script src="./js/main.js"></script>
+  <title>list</title>
+</head>
+<body>	
+<header class="header">
+	<div class="box">
+  		<p></p>
+  		<p><span class="title"><label id="title"></label></span></p>  		
+  		<p><span class="user">
+			  <label id="user"></label>
+   			  <button type="button" onclick="logoutclick()">ログアウト</button>
+  		   </span>
+  		</p>  		
+	</div>	
+</header>
+
+<form class="slightly-left" id="form" method="post" th:object="${UserForm}" th:action="@{/logout}">
+	<h3>検索条件を入力してください。</h3>     
+	<table>
+        <tr>
+            <td>氏名</td>
+            <td><input type="text" th:field=*{name}/></td>
+        </tr>          
+        <tr>
+            <td>カナ</td>
+            <td><input type="text" th:field=*{kana}/></td>
+        </tr>
+        <tr>
+            <td>状態</td>
+            <td>
+				<th:block th:each="item:${items.get('statename')}">
+      			<input type="checkbox" th:id="${#ids.seq('id_')}" th:field="*{checked}" th:value="${item.statename}">
+      			<label th:for="${#ids.prev('id_')}" th:text="${item.statename}"></label>
+    			</th:block><br>	
+            </td>
+        </tr>          
+        <tr>
+            <td>所属</td>
+            <td>
+    			<select th:field="*{divisionname}">
+					<option th:each="item:${items.get('divisionname')}" th:value="${item.divisionname}" th:text="${item.divisionname}"></option>		
+    			</select>
+			</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+				<button type="button" onclick="searchclick()">検索</button>
+				<button type="button" onclick="insertclick()">新規</button> 
+            </td>
+        </tr>
+    </table>	
+</form>
+
+<table class="center" border="1" style="border-collapse: collapse">  
+	<tr>
+    <th>コード</th>
+    <th>カード</th>
+    <th>氏名</th>
+    <th>カナ</th>
+    <th>状態コード</th>
+    <th>状態</th>
+    <th>入職日</th>
+    <th>退職日</th>
+    <th>所属</th>
+    <th>部署コード</th>
+    <th>部署</th>
+    <th>編集</th>
+    <th>削除</th>
+  	</tr>
+  	
+	<tr th:each="user : ${data.get('users')}" th:object="${user}">
+    <td th:text="*{Code}"></td>
+    <td th:text="*{Idm}"></td>
+    <td th:text="*{name}"></td>
+    <td th:text="*{Kana}"></td>
+    <td th:text="*{Statecode}"></td>
+    <td th:text="*{Statename}"></td>
+    <td th:text="*{Joindate}"></td>
+    <td th:text="*{Retiredate}"></td>
+    <td th:text="*{Divisionname}"></td>
+    <td th:text="*{Sectioncode}"></td>
+    <td th:text="*{Sectionname}"></td>
+    
+    <td>    
+	<a href="javascript:void(0);" th:onclick="updateclick([[*{code}]])">編集</a>        
+    </td>
+    
+    <td>    
+	<a href="javascript:void(0);" th:onclick="deleteclick([[*{Code}]])">削除</a>        
+    </td>
+
+  	</tr>
+</table>
+
+
+<footer class="footer">
+    <p>© All rights reserved by PALM</p>
+</footer>
+
+<script th:inline="javascript">		
+	
+window.onload =  function() {
+	let title = /*[[${title}]]*/"title";
+	let user = /*[[${session.user['fullname']}]]*/"user";
+	
+    let element_title = document.getElementById("title");	
+	element_title.textContent = title;
+    let element_user = document.getElementById("user");	
+	element_user.textContent = "ログイン：" + user;
+}
+	 
+function insertclick() {
+    let form = document.getElementById("form");
+    form.action="/insert";
+    form.submit();
+}  
+
+function searchclick(){
+    let form = document.getElementById("form");
+    form.action="/search";
+    form.submit();	
+}
+
+function logoutclick() {
+	let result = confirm('ログアウトしますか？');
+	if (result){
+    	let form = document.getElementById("form");
+    	form.action="/logout";
+    	form.submit();	
+	}
+}
+	
+function updateclick(code) {
+    let form = document.getElementById("form");
+    let input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", "code");
+    input.setAttribute("value", code);
+    form.appendChild(input);
+    form.action="/update";
+    form.submit();	
+}  
+
+function deleteclick(code) {
+    let form = document.getElementById("form");
+    let input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", "code");
+    input.setAttribute("value", code);
+    form.appendChild(input);
+    form.action="/delete";
+    form.submit();	
+}  
+
+/*
+window.addEventListener('load', function() {
+	fetch("footer.html")
+        .then((response) => response.text())
+        .then((data) => document.getElementById("#footer").innerHTML = data);
+});       
+
+
+
+$(document).ready(function(){
+		var csrfToken = document.getElementById("csrf");
+		//alert(csrfToken.innerHTML);
+		alert(csrfToken.value);
+})    
+*/
+
+</script>
+
+
+</body>
+</html>
