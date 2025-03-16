@@ -24,6 +24,18 @@ body {
     margin-top:5%;  
 }
 
+.menu{
+	width:640px;
+	margin: auto;
+    margin-top:5%;  
+}
+
+.list{
+	width:800px;
+	margin: auto;
+    margin-top:5%;  
+}
+
 .register{
 	width:640px;
 	margin: auto;
@@ -55,12 +67,25 @@ body {
   height: 50px;  
 }
 
-.center {
+.form-center {
 	/*
     width: fit-content;
     margin: auto;
     */
     
+    /*
+ 	display: flex;
+ 	*/
+    justify-content: center;    
+}
+
+.table-center {
+ 	display: flex;
+    justify-content: center;    
+}
+
+.menu-center{
+	width:100%;	
  	display: flex;
     justify-content: center;    
 }
@@ -77,28 +102,27 @@ body {
 	font-size: medium;	
 }
 
-.height10{
-	line-height:10%;
-}
-
-.height200{
-	line-height:200%;
-}
-
-.height5px{
-	line-height:5px;
-}
-
-.height10px{
-	line-height:10px;
-}
-
 .error{
 	color:red;
 	font-size: large;	
+	white-space: pre-line;
 }
 
 .info{
 	color:blue;
 	font-size: large;	
+	white-space: pre-line;
 }
+
+.menu-button{
+  display: block;
+  width: 160px;
+  height: 40px;
+  /*padding: 10px 5px 10px 5px;*/	
+  margin: 10px 5px 10px 5px;	
+  font-size:x-large;	
+}
+
+
+
+

@@ -22,9 +22,16 @@
 <body>
     <div class="slightly-left">
 	<h3>新規のユーザーアカウントが登録できます。</h3>     
-    <p class="error" th:if="${map.exists}">入力されたアカウントは登録済みです。</p>
-    <p class="error" th:if="${map.failed}">入力されたアカウントは登録できませんでした。</p>
     </div>
+    
+    <div class="slightly-left">	   	
+	<th:block th:if="${not LoginForm.msg.isEmpty()}">
+	    <th:block th:each="item:${LoginForm.msg}">
+			<label class="error" th:text="*{item.value}"></label><br>		
+		</th:block>
+	</th:block>
+	</div>
+
       
     <form class="center" th:action="@{/register}" method="post" th:object="${LoginForm}">
 	<table>

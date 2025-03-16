@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Data;
 
@@ -11,6 +13,7 @@ public class LoginForm implements Serializable{
 	private String password;
 	private String fullname;
 	private String email;
+	private Map<String, Object> msg;
 	
 	public LoginForm() {
 		id = 0;
@@ -18,5 +21,6 @@ public class LoginForm implements Serializable{
 		password = "";
 		fullname = "";
 		email = "";
+		msg = new HashMap<String, Object>();
 	}
 }

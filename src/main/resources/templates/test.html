@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org"
+      class="list">
+      
+<head>
+  <meta charset="UTF-8">
+　<link rel="stylesheet" href="./css/example.css">
+  <script src="./js/jquery-3.7.1.js"> </script>
+  <script src="./js/main.js"></script>
+  <title>list</title>
+</head>
+<body>	
+<header class="header">
+	<div class="box">
+  		<p></p>
+  		<p><span class="title"><label id="title"></label></span></p>  		
+  		<p><span class="user">
+			  <label id="user"></label>
+   			  <button type="button" onclick="menuclick()">menu</button>
+  		   </span>
+  		</p>  		
+	</div>	
+</header>
+
+<form class="form-center" id="form" method="post" th:object="${UserForm}" th:action="@{/search}">
+	<input type="text" th:field=*{mapitems}>
+	<div class="slightly-left">
+		<h3>検索条件を入力してください。</h3>     		
+	</div>
+	<table class="table-center">
+        <tr>
+            <td>氏名</td>
+            <td><input type="text" th:field=*{name}/></td>
+        </tr>          
+        <tr>
+            <td>カナ</td>
+            <td><input type="text" th:field=*{kana}/></td>
+        </tr>
+
+        <tr>
+            <td>状態</td>
+            <td>
+				<th:block th:each="item:*{mapitems.get('state')}">
+      			<label th:for="${#ids.next('id_')}" th:text="${item.value}"></label>
+      			<input type="checkbox" th:id="${#ids.seq('id_')}" th:field="*{stateKeys}" th:value="${item.key}" th:checked="${#lists.contains({stateKeys}, {item.key})}">
+    			</th:block><br>	
+            </td>
+        </tr> 
+        <tr>
+          	<td>雇用形態</td>
+            <td>
+    			<select th:field="*{statusKey}">
+					<option th:value="0"></option>
+					<option th:each="item:*{mapitems.get('status')}" th:value="${item.key}" th:text="${item.value}" th:selected="(${item.key}==*{statusKey})"></option>		
+    			</select>
+			</td>			
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+				<button type="button" onclick="mapclick()">マップ</button>
+				<button type="button" onclick="insertclick()">新規</button> 
+            </td>
+        </tr>
+    </table>	
+</form>
+
+
+<footer class="footer">
+    <p>© All rights reserved by PALM</p>
+</footer>
+
+<script th:inline="javascript">
+		
+window.onload =  function() {
+	let title = /*[[${title}]]*/"title";
+	let user = /*[[${session.user['fullname']}]]*/"user";
+		
+    let element_title = document.getElementById("title");	
+	element_title.textContent = title;
+    let element_user = document.getElementById("user");	
+	element_user.textContent = "ユーザー：" + user;
+	
+	localStorage.clear();
+}
+	 
+
+function menuclick() {
+	let result = confirm('メニューに戻りますか？');
+	if (!result) return;
+    let form = document.getElementById("form");
+    form.method="get";
+    form.action="/menu";
+    form.submit();	
+}
+	
+function mapclick() {    
+    alert('Start');
+    alert("1 " + form.kana.value);
+    alert("2 " + document.forms['form']['kana'].value);
+    alert("3 " + form['kana'].value);
+    alert("4 " + form['mapitems'].value);
+    
+    let map = new Map();
+    arr=JSON.parse(form['mapitems'].value);
+    arr.forEach((r )=> {
+		map.push(r);
+	});
+	map.forEach((r) = console.log(r));
+    
+    alert(/*[[${UserForm.getKana()}]]*/);
+    alert(/*[[${UserForm.getMapitems()['status'][1]}]]*/);
+    alert(/*[[${UserForm.getMapitems().get('status').get(1)}]]*/);
+	
+    alert('End');
+
+
+    
+	let userForm = /*[[${UserForm}]]*/"userForm";	
+	let ar = new Array();	
+	userForm.stateKeys.forEach((r)=>{ar.push(r)});
+	localStorage.setItem('stateKeys',ar);	
+	localStorage.setItem('statusKey',userForm.statusKey);	
+}  
+
+
+</script>
+
+
+</body>
+</html>
